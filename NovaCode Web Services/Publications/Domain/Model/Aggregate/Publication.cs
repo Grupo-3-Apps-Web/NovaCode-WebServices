@@ -24,5 +24,15 @@ public class Publication
         PublishedDate = publishedDate;
     }
     
+    public void UpdatePublication(string model, string brand, string year, string description, string image, int price, string publishedDate)
+    {
+        Model = model;
+        Brand = brand;
+        Year = year;
+        Description = description;
+        Image = image;
+        Price = price;
+        PublishedDate = publishedDate;
+    }
     
 }
