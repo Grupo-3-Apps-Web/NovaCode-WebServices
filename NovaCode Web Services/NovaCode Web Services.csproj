@@ -23,8 +23,6 @@
     <ItemGroup>
       <Folder Include="Publications\Domain\Model\Entities\" />
       <Folder Include="Publications\Domain\Model\ValueObjects\" />
-      <Folder Include="Publications\Interfaces\REST\Resources\" />
-      <Folder Include="Publications\Interfaces\REST\Transform\" />
     </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@ public class PublicationCommandService(IPublicationRepository publicationReposit
         }
     }
     
-    public async Task<Publication> Handle(int id, UpdatePublicationCommand command)
+    public async Task<Publication?> Handle(int id, UpdatePublicationCommand command)
     {
         var publication = await publicationRepository.FindByIdAsync(id);
 
