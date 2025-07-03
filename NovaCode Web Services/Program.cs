@@ -1,4 +1,18 @@
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using NovaCode_Web_Services.IAM.Application.ACL.Services;
+using NovaCode_Web_Services.IAM.Application.Internal.CommandServices;
+using NovaCode_Web_Services.IAM.Application.Internal.OutboundServices;
+using NovaCode_Web_Services.IAM.Application.Internal.QueryServices;
+using NovaCode_Web_Services.IAM.Domain.Repositories;
+using NovaCode_Web_Services.IAM.Domain.Services;
+using NovaCode_Web_Services.IAM.Infrastructure.Hashing.BCrypt.Services;
+using NovaCode_Web_Services.IAM.Infrastructure.Persistence.EFC.Repositories;
+using NovaCode_Web_Services.IAM.Infrastructure.Pipeline.Middleware.Extensions;
+using NovaCode_Web_Services.IAM.Infrastructure.Tokens.JWT.Configuration;
+using NovaCode_Web_Services.IAM.Infrastructure.Tokens.JWT.Services;
+using NovaCode_Web_Services.IAM.Interfaces.ACL;
 using NovaCode_Web_Services.Publications.Application.Internal.CommandServices;
 using NovaCode_Web_Services.Publications.Application.Internal.QueryServices;
 using NovaCode_Web_Services.Publications.Domain.Repositories;
@@ -11,79 +25,127 @@ using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Apply Route Naming Convention
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
-// Configure Lower Case URLs
- builder.Services.AddRouting(options => options.LowercaseUrls = true);
+// Add CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllPolicy",
+        policy => 
+            policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+});
 
-// Configure Kebab Case Route Naming Convention
- builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+// Add Database Connection
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnet/core/swashbuckle
- builder.Services.AddEndpointsApiExplorer();
- builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
+if (connectionString is null)
+    throw new Exception("Database connection string is not set.");
 
- builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (builder.Environment.IsDevelopment())
+        options.UseMySQL(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging();
+    else if (builder.Environment.IsProduction())
+        options.UseMySQL(connectionString);
+});
+
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition(
+        "Bearer",
+        new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "bearer"
+        });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+    options.EnableAnnotations();
+});
+
+// Configuración de restricciones de tipo en rutas
+
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.ConstraintMap.Add("id", typeof(IntRouteConstraint)); // Solo agrega esta línea, sin duplicar "int"
+});
+
+
+// Configure Dependency Injection
+
+// Shared Bounded Context Dependency Injection Configuration
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //Publication Bounded Context Dependency Injection Configuration
 
- builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
- builder.Services.AddScoped<IPublicationCommandService, PublicationCommandService>();
- builder.Services.AddScoped<IPublicationQueryService, PublicationQueriesService>();
+builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
+builder.Services.AddScoped<IPublicationCommandService, PublicationCommandService>();
+builder.Services.AddScoped<IPublicationQueryService, PublicationQueriesService>();
 
-// Add Database Connection
- var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// Verify if the connection string is not null or empty
- if (string.IsNullOrEmpty(connectionString))
- {
-     throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
- }
-
-// Configure Database Context and Logging Level
- if (builder.Environment.IsDevelopment())
-  builder.Services.AddDbContext<AppDbContext>(options =>
-  {
-   options.UseMySQL(connectionString)
-    .LogTo(Console.WriteLine, LogLevel.Information)
-    .EnableSensitiveDataLogging()
-    .EnableDetailedErrors();
-  });
- else  if (builder.Environment.IsProduction())
-  builder.Services.AddDbContext<AppDbContext>(options =>
-  {
-   options.UseMySQL(connectionString)
-    .LogTo(Console.WriteLine, LogLevel.Error)
-    .EnableDetailedErrors();
-  }); 
- 
-// Configure Dependency Injection
- 
-// Shared Bounded Context Injection Configuration
-  builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-// ************* Bounded Context Injection Configuration
-
+// IAM Bounded Context Dependency Injection Configuration
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 var app = builder.Build();
 
-// Verify if the database is created and apply migrations
+// Verify Database Objects are Created
+
 using (var scope = app.Services.CreateScope())
 {
-   var services = scope.ServiceProvider;
-   var context = services.GetRequiredService<AppDbContext>();
-   context.Database.EnsureCreated();
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    context.Database.EnsureCreated();
 }
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//  app.MapOpenApi();
-//}
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// Add Authorization Middleware to the Pipeline
+
+app.UseCors("AllowAllPolicy");
+
+app.UseRequestAuthorization();
+
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

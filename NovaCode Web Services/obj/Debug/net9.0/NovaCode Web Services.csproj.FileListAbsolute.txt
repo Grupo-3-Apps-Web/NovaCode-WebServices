@@ -13,20 +13,10 @@ C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\Nov
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\K4os.Compression.LZ4.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\K4os.Compression.LZ4.Streams.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\K4os.Hash.xxHash.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.Design.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
-C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.OpenApi.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\MySql.Data.dll
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\MySql.EntityFrameworkCore.dll
@@ -117,3 +107,13 @@ C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\Nov
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\obj\Debug\net9.0\NovaCode Web Services.pdb
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\obj\Debug\net9.0\NovaCode Web Services.genruntimeconfig.cache
 C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\obj\Debug\net9.0\ref\NovaCode Web Services.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\BCrypt.Net-Next.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.Bcl.TimeProvider.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Josue\Documents\UPC 2025.1\Desarrollo de Aplicaciones Web\Proyectos\NovaCode Web Services\NovaCode Web Services\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

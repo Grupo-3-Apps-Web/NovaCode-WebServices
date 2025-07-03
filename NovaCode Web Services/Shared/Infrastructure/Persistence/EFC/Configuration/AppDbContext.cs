@@ -1,6 +1,7 @@
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
+using NovaCode_Web_Services.IAM.Domain.Model.Aggregates;
 using NovaCode_Web_Services.Publications.Domain.Model.Aggregate;
 
 namespace NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -29,7 +30,11 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Publication>().Property(e => e.Price).IsRequired();
         builder.Entity<Publication>().Property(e => e.PublishedDate).IsRequired();
 
-
+        //IAM Context
+        builder.Entity<User>().HasKey(u => u.Id);
+        builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<User>().Property(u => u.Username).IsRequired();
+        builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
 
 
         
