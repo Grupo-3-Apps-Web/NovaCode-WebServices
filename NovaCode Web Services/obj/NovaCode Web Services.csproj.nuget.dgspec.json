@@ -46,6 +46,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "EntityFrameworkCore.CreatedUpdatedDate": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -54,17 +58,17 @@
               "target": "Package",
               "version": "[2.14.1, )"
             },
-            "Microsoft.AspNetCore.OpenApi": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[9.0.2, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.5, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[9.0.5, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Relational.Design": {
               "target": "Package",
@@ -72,19 +76,27 @@
             },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
-              "version": "[9.0.5, )"
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.2.0, )"
             },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.3, )"
+              "version": "[8.0.5, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[8.1.4, )"
+              "version": "[6.8.1, )"
             },
             "Swashbuckle.AspNetCore.Annotations": {
               "target": "Package",
-              "version": "[8.1.4, )"
+              "version": "[6.8.1, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.2.0, )"
             }
           },
           "imports": [
