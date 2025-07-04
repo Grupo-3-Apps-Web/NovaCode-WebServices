@@ -1,4 +1,4 @@
-@NovaCode_Web_Services_HostAddress = http://localhost:5011
+@NovaCode_Web_Services_HostAddress = http://localhost:8000
 
 GET {{NovaCode_Web_Services_HostAddress}}/weatherforecast/
 Accept: application/json
