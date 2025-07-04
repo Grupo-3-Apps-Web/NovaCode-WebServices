@@ -140,14 +140,17 @@ app.UseSwaggerUI(c =>
 
 // Add Authorization Middleware to the Pipeline
 
+app.UseRouting();
+
 app.UseCors("AllowAllPolicy");
 
-app.UseRequestAuthorization();
-
 app.UseHttpsRedirection();
+
+app.UseRequestAuthorization();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
