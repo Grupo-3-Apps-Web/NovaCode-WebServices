@@ -29,16 +29,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
-// Add CORS Policy for frontend
+// Add CORS Policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("https://incredible-concha-fe7fc1.netlify.app")
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials(); // necesario si usas cookies o Authorization header
-    });
+    options.AddPolicy("AllowAllPolicy", policy =>
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 
 // Add Database Connection
@@ -133,7 +130,7 @@ app.UseSwaggerUI(c =>
 
 app.UseRouting();
 
-app.UseCors("AllowFrontend"); // 👈 importante: CORS se aplica aquí
+app.UseCors("AllowAllPolicy");
 
 app.UseHttpsRedirection();
 
