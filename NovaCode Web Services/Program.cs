@@ -31,14 +31,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
-// Add CORS Policy
+// ✅ CORS configurado correctamente para Netlify
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllPolicy",
-        policy => 
-            policy.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+    options.AddPolicy("AllowNetlify", policy =>
+        policy.WithOrigins("https://incredible-concha-fe7fc1.netlify.app") // <== tu dominio frontend
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials()); // solo si usas cookies/autenticación
 });
 
 // Add Database Connection
@@ -58,8 +58,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseMySQL(connectionString);
 });
 
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -91,17 +90,11 @@ builder.Services.AddSwaggerGen(options =>
     options.EnableAnnotations();
 });
 
-// Configuración de restricciones de tipo en rutas
-
+// Route Constraints
 builder.Services.Configure<RouteOptions>(options =>
 {
-    options.ConstraintMap.Add("id", typeof(IntRouteConstraint)); // Solo agrega esta línea, sin duplicar "int"
+    options.ConstraintMap.Add("id", typeof(IntRouteConstraint));
 });
-
-
-// Configure Dependency Injection
-
-// Shared Bounded Context Dependency Injection Configuration
 
 // Dependency Injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -122,8 +115,7 @@ builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 var app = builder.Build();
 
-// Verify Database Objects are Created
-
+// Ensure DB is created
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -131,20 +123,22 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Middleware Pipeline
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "NovaCode API v1");
+    c.RoutePrefix = "swagger";
+});
 
-// Add Authorization Middleware to the Pipeline
-
-app.UseCors("AllowAllPolicy");
-
-app.UseRequestAuthorization();
+// ✅ CORS debe ir antes que Routing y Authorization
+app.UseCors("AllowNetlify");
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseRequestAuthorization();
 
 app.UseAuthorization();
 
