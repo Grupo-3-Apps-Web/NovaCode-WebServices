@@ -12,4 +12,6 @@ public interface IUnitOfWork
     ///     Commit changes to the database.
     /// </summary>
     Task CompleteAsync();
+    Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class;
+    Task RemoveAsync<TEntity>(TEntity entity) where TEntity : class;
 }
