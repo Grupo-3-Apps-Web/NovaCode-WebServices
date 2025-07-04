@@ -34,11 +34,11 @@ builder.Services.AddControllers(options => options.Conventions.Add(new KebabCase
 // ✅ CORS configurado correctamente para Netlify
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowNetlify", policy =>
-        policy.WithOrigins("https://incredible-concha-fe7fc1.netlify.app") // <== tu dominio frontend
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials()); // solo si usas cookies/autenticación
+    options.AddPolicy("AllowAllPolicy",
+        policy => 
+            policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 });
 
 // Add Database Connection
