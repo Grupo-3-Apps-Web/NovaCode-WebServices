@@ -2,6 +2,7 @@ using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration.
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 using NovaCode_Web_Services.IAM.Domain.Model.Aggregates;
+using NovaCode_Web_Services.Navigation.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using NovaCode_Web_Services.Publications.Domain.Model.Aggregate;
 
 namespace NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -35,6 +36,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<User>().Property(u => u.Username).IsRequired();
         builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
+        
+        //Navigation Context Configuration
+        builder.ApplyNavigationConfiguration();
 
 
         
