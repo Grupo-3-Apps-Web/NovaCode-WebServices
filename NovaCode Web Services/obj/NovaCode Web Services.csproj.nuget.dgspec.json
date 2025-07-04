@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Josue\\Documents\\UPC 2025.1\\Desarrollo de Aplicaciones Web\\Proyectos\\NovaCode Web Services\\NovaCode Web Services\\NovaCode Web Services.csproj": {}
+    "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Josue\\Documents\\UPC 2025.1\\Desarrollo de Aplicaciones Web\\Proyectos\\NovaCode Web Services\\NovaCode Web Services\\NovaCode Web Services.csproj": {
+    "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Josue\\Documents\\UPC 2025.1\\Desarrollo de Aplicaciones Web\\Proyectos\\NovaCode Web Services\\NovaCode Web Services\\NovaCode Web Services.csproj",
+        "projectUniqueName": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj",
         "projectName": "NovaCode Web Services",
-        "projectPath": "C:\\Users\\Josue\\Documents\\UPC 2025.1\\Desarrollo de Aplicaciones Web\\Proyectos\\NovaCode Web Services\\NovaCode Web Services\\NovaCode Web Services.csproj",
+        "projectPath": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj",
         "packagesPath": "C:\\Users\\Josue\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Josue\\Documents\\UPC 2025.1\\Desarrollo de Aplicaciones Web\\Proyectos\\NovaCode Web Services\\NovaCode Web Services\\obj\\",
+        "outputPath": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Josue\\AppData\\Roaming\\NuGet\\NuGet.Config",
