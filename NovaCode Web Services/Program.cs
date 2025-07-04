@@ -23,19 +23,22 @@ using NovaCode_Web_Services.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration;
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Repositories;
 
+// ... (usings sin cambios)
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Apply Route Naming Convention
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
-// Add CORS Policy
+// ✅ CORS configurado correctamente para Netlify
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllPolicy", policy =>
-        policy.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+    options.AddPolicy("AllowNetlify", policy =>
+        policy.WithOrigins("https://incredible-concha-fe7fc1.netlify.app") // <== tu dominio frontend
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials()); // solo si usas cookies/autenticación
 });
 
 // Add Database Connection
@@ -128,11 +131,12 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
-app.UseRouting();
-
-app.UseCors("AllowAllPolicy");
+// ✅ CORS debe ir antes que Routing y Authorization
+app.UseCors("AllowNetlify");
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseRequestAuthorization();
 
