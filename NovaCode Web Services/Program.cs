@@ -125,20 +125,13 @@ using (var scope = app.Services.CreateScope())
 
 // Middleware Pipeline
 app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "NovaCode API v1");
-    c.RoutePrefix = "swagger";
-});
+app.UseSwaggerUI();
 
-// ✅ CORS debe ir antes que Routing y Authorization
-app.UseCors("AllowNetlify");
-
-app.UseHttpsRedirection();
-
-app.UseRouting();
+app.UseCors("AllowAllPolicy");
 
 app.UseRequestAuthorization();
+
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
