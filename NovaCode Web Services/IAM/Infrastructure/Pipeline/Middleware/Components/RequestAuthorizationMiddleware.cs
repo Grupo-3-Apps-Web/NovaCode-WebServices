@@ -27,7 +27,7 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
                              endpoint.Metadata?.Any(m => m.GetType() == typeof(AllowAnonymousAttribute)) == true;
 
         var path = context.Request.Path.Value?.ToLower();
-        if (allowAnonymous || (path != null && path.StartsWith("/swagger")))
+        if (allowAnonymous || (path != null && path.Contains("/swagger")))
         {
             Console.WriteLine("🔓 Skipping authorization for anonymous or Swagger route.");
             await next(context);
@@ -41,11 +41,18 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
         if (string.IsNullOrWhiteSpace(token))
         {
             Console.WriteLine("❌ Authorization header is missing or malformed.");
-            throw new Exception("Null or invalid token");
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await context.Response.WriteAsync("Unauthorized: Null or invalid token");
+            return;
         }
 
         var userId = await tokenService.ValidateToken(token);
-        if (userId is null) throw new Exception("Invalid token");
+        if (userId is null)
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await context.Response.WriteAsync("Unauthorized: Invalid token");
+            return;
+        }
 
         var getUserByIdQuery = new GetUserByIdQuery(userId.Value);
         var user = await userQueryService.Handle(getUserByIdQuery);
