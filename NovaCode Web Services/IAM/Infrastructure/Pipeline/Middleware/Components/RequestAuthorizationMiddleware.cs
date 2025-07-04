@@ -22,48 +22,34 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
         ITokenService tokenService)
     {
         Console.WriteLine("➡️ RequestAuthorizationMiddleware: Start");
-
         var endpoint = context.Request.HttpContext.GetEndpoint();
-        var allowAnonymous = endpoint?.Metadata.Any(m => m.GetType() == typeof(AllowAnonymousAttribute)) ?? false;
+        var allowAnonymous = endpoint != null &&
+                             endpoint.Metadata?.Any(m => m.GetType() == typeof(AllowAnonymousAttribute)) == true;
 
-        var path = context.Request.Path.Value?.ToLower() ?? "";
-
-        var isSwaggerRequest =
-            path.StartsWith("/swagger") ||
-            path.Contains("swagger.json") ||
-            path.Contains("swagger/index.html");
-
-        if (allowAnonymous || isSwaggerRequest)
+        var path = context.Request.Path.Value?.ToLower();
+        if (allowAnonymous || (path != null && path.StartsWith("/swagger")))
         {
-            Console.WriteLine("✅ Skipping authorization (Swagger or [AllowAnonymous])");
+            Console.WriteLine("🔓 Skipping authorization for anonymous or Swagger route.");
             await next(context);
             return;
         }
 
         Console.WriteLine("🔐 Performing authorization...");
+        var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+        var token = authHeader?.Split(" ").Last();
 
-        var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-
-        if (string.IsNullOrEmpty(token))
+        if (string.IsNullOrWhiteSpace(token))
         {
             Console.WriteLine("❌ Authorization header is missing or malformed.");
             throw new Exception("Null or invalid token");
         }
 
         var userId = await tokenService.ValidateToken(token);
-
-        if (userId is null)
-        {
-            Console.WriteLine("❌ Token validation failed.");
-            throw new Exception("Invalid token");
-        }
+        if (userId is null) throw new Exception("Invalid token");
 
         var getUserByIdQuery = new GetUserByIdQuery(userId.Value);
         var user = await userQueryService.Handle(getUserByIdQuery);
-
-        Console.WriteLine("✅ Authorized. User context updated.");
         context.Items["User"] = user;
-
         await next(context);
     }
 }
