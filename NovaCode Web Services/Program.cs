@@ -130,11 +130,13 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "NovaCode API v1");
+    c.RoutePrefix = "swagger"; // esto asegura que swagger esté en /swagger
+});
+
 
 // Add Authorization Middleware to the Pipeline
 

@@ -16,52 +16,55 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
     /// <summary>
     /// Invoke middleware 
     /// </summary>
-    /// <remarks>
-    /// This middleware is responsible for authorizing requests. It checks if the request is allowed to be anonymous. If it is, it skips authorization. If it is not, it validates the token in the request header and retrieves the user associated with the token. It then updates the context with the user and continues to the next middleware in the pipeline.
-    /// </remarks>
-    /// <param name="context">
-    /// <see cref="HttpContext"/> HTTP context
-    /// </param>
-    /// <param name="userQueryService">
-    /// <see cref="IUserQueryService"/> User query service
-    /// </param>
-    /// <param name="tokenService">
-    /// <see cref="ITokenService"/> Token service
-    /// </param>
-    /// <exception cref="Exception">
-    /// Thrown when the token is null or invalid
-    /// </exception>
     public async Task InvokeAsync(
         HttpContext context,
         IUserQueryService userQueryService,
         ITokenService tokenService)
     {
-        Console.WriteLine("Entering InvokeAsync");
-        var allowAnonymous = context.Request.HttpContext.GetEndpoint()!
-            .Metadata
-            .Any(m => m.GetType() == typeof(AllowAnonymousAttribute));
-        Console.WriteLine($"AllowAnonymous: {allowAnonymous}");
-        if (allowAnonymous)
+        Console.WriteLine("➡️ RequestAuthorizationMiddleware: Start");
+
+        var endpoint = context.Request.HttpContext.GetEndpoint();
+        var allowAnonymous = endpoint?.Metadata.Any(m => m.GetType() == typeof(AllowAnonymousAttribute)) ?? false;
+
+        var path = context.Request.Path.Value?.ToLower() ?? "";
+
+        var isSwaggerRequest =
+            path.StartsWith("/swagger") ||
+            path.Contains("swagger.json") ||
+            path.Contains("swagger/index.html");
+
+        if (allowAnonymous || isSwaggerRequest)
         {
-            Console.WriteLine("Skipping authorization");
+            Console.WriteLine("✅ Skipping authorization (Swagger or [AllowAnonymous])");
             await next(context);
             return;
         }
-        Console.WriteLine("Entering authorization");
+
+        Console.WriteLine("🔐 Performing authorization...");
+
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-        if (token is null) throw new Exception("Null of invalid token");
-        
-        var userId = await tokenService.ValidateToken(token);
-        
-        if (userId is null) throw new Exception("Invalid token");
-        
-        var getUserByIdQuery = new GetUserByIdQuery(userId.Value);
+        if (string.IsNullOrEmpty(token))
+        {
+            Console.WriteLine("❌ Authorization header is missing or malformed.");
+            throw new Exception("Null or invalid token");
+        }
 
+        var userId = await tokenService.ValidateToken(token);
+
+        if (userId is null)
+        {
+            Console.WriteLine("❌ Token validation failed.");
+            throw new Exception("Invalid token");
+        }
+
+        var getUserByIdQuery = new GetUserByIdQuery(userId.Value);
         var user = await userQueryService.Handle(getUserByIdQuery);
-        Console.WriteLine("Successfully authorized. Updating context...");
+
+        Console.WriteLine("✅ Authorized. User context updated.");
         context.Items["User"] = user;
-        Console.WriteLine("Continuing to next middleware in pipeline");
+
         await next(context);
     }
 }
+
