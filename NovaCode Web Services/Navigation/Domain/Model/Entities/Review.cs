@@ -1,8 +1,8 @@
 using NovaCode_Web_Services.IAM.Domain.Model.Aggregates;
 using NovaCode_Web_Services.Navigation.Domain.Model.Commands;
-using NovaCode_Web_Services.Navigation.Domain.Model.Entities;
+using NovaCode_Web_Services.Navigation.Domain.Model.Aggregate;
 
-namespace NovaCode_Web_Services.Navigation.Domain.Model.Aggregate;
+namespace NovaCode_Web_Services.Navigation.Domain.Model.Entities;
 
 public partial class Review
 {

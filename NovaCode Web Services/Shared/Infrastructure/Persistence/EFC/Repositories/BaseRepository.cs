@@ -16,6 +16,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task AddAsync(TEntity entity)
     {
         await Context.Set<TEntity>().AddAsync(entity);
+        await Context.SaveChangesAsync();
     }
 
     public async Task<TEntity?> FindByIdAsync(int id)

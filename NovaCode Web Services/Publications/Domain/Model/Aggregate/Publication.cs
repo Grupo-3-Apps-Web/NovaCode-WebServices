@@ -2,7 +2,7 @@
 
 public class Publication
 {
-    public int Id { get; }
+    public int Id { get; set; }
     public string Model { get; private set; } = string.Empty;
     public string Brand { get; private set; } = string.Empty;
     public string Year { get; private set; } = string.Empty;

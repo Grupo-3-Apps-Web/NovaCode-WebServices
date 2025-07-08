@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <!-- Dependency Injection related packages -->
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3"/>
         <!-- Entity Framework Core related packages -->
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10"/>
@@ -30,17 +30,12 @@
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10"/>
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.0"/>
+        <PackageReference Include="Cortex.Mediator" Version="1.6.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Publications\Domain\Model\Entities\" />
-      <Folder Include="Publications\Domain\Model\ValueObjects\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Folder Include="Publications\Domain\Model\Entities\" />
+        <Folder Include="Publications\Domain\Model\ValueObjects\" />
     </ItemGroup>
 
 </Project>

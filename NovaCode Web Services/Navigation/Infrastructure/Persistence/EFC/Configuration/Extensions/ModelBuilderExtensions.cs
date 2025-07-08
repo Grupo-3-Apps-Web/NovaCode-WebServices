@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using NovaCode_Web_Services.Navigation.Domain.Model.Aggregate;
+using NovaCode_Web_Services.Navigation.Domain.Model.Entities;
 
 namespace NovaCode_Web_Services.Navigation.Infrastructure.Persistence.EFC.Configuration.Extensions;
 

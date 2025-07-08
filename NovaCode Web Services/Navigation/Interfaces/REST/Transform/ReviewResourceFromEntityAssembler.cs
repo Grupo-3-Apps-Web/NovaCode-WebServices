@@ -1,5 +1,5 @@
 using NovaCode_Web_Services.IAM.Interfaces.REST.Transform;
-using NovaCode_Web_Services.Navigation.Domain.Model.Aggregate;
+using NovaCode_Web_Services.Navigation.Domain.Model.Entities;
 using NovaCode_Web_Services.Navigation.Interfaces.REST.Resources;
 
 namespace NovaCode_Web_Services.Navigation.Interfaces.REST.Transform;

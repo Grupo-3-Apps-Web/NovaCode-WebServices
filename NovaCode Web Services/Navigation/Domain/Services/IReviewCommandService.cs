@@ -1,4 +1,4 @@
-using NovaCode_Web_Services.Navigation.Domain.Model.Aggregate;
+using NovaCode_Web_Services.Navigation.Domain.Model.Entities;
 using NovaCode_Web_Services.Navigation.Domain.Model.Commands;
 
 namespace NovaCode_Web_Services.Navigation.Domain.Services;

@@ -1,6 +1,5 @@
-using NovaCode_Web_Services.IAM.Domain.Model.Aggregates;
 using NovaCode_Web_Services.IAM.Domain.Repositories;
-using NovaCode_Web_Services.Navigation.Domain.Model.Aggregate;
+using NovaCode_Web_Services.Navigation.Domain.Model.Entities;
 using NovaCode_Web_Services.Navigation.Domain.Model.Commands;
 using NovaCode_Web_Services.Navigation.Domain.Repositories;
 using NovaCode_Web_Services.Navigation.Domain.Services;
