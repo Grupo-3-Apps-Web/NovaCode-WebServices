@@ -107,7 +107,7 @@ public class PublicationsController(IPublicationCommandService publicationComman
     {
         if (command == null)
         {
-            return BadRequest("Invalid publication data.");
+            return BadRequest("Invalid data.");
         }
 
         var updatedPublication = await publicationCommandService.Handle(id, command);
