@@ -22,6 +22,13 @@ using NovaCode_Web_Services.Shared.Domain.Repositories;
 using NovaCode_Web_Services.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration;
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Repositories;
+using NovaCode_Web_Services.Profile.Application.Internal.CommandServices;
+
+using NovaCode_Web_Services.Profile.Application.Internal.QueryServices;
+using NovaCode_Web_Services.Profile.Domain.Repositories;
+using NovaCode_Web_Services.Profile.Domain.Services;
+using NovaCode_Web_Services.Profile.Infrastructure.Persistence.EFC.Repositories;
+
 
 // ... (usings sin cambios)
 
@@ -103,6 +110,13 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
 builder.Services.AddScoped<IPublicationCommandService, PublicationCommandService>();
 builder.Services.AddScoped<IPublicationQueryService, PublicationQueriesService>();
+
+// Profile
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueriesService>();
+
+
 
 // IAM
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
