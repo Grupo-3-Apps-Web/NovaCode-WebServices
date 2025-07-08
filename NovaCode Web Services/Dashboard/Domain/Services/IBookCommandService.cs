@@ -5,6 +5,6 @@ namespace NovaCode_Web_Services.Dashboard.Domain.Services;
 
 public interface IBookCommandService
 {
-    Task<Book> Handle(UpdateBookCommand command);
-    Task<Book> Handle(DeleteBookCommand command);
+    Task<Book?> Handle(int id,UpdateBookCommand command);
+    Task<bool?> Handle(DeleteBookCommand command);
 }

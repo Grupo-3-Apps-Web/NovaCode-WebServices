@@ -6,4 +6,5 @@ namespace NovaCode_Web_Services.Dashboard.Domain.Services;
 public interface IBookQueryService
 {
     Task<IEnumerable<Book>> Handle(GetAllBookQuery query);
+    
 }

@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NovaCode_Web_Services.Dashboard.Application.Internal.CommandServices;
+using NovaCode_Web_Services.Dashboard.Application.Internal.QueryService;
+using NovaCode_Web_Services.Dashboard.Domain.Repositories;
+using NovaCode_Web_Services.Dashboard.Domain.Services;
+using NovaCode_Web_Services.Dashboard.Infrastructure.Persistence.EFC.Repositories;
 using NovaCode_Web_Services.IAM.Application.ACL.Services;
 using NovaCode_Web_Services.IAM.Application.Internal.CommandServices;
 using NovaCode_Web_Services.IAM.Application.Internal.OutboundServices;
@@ -108,6 +113,12 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
 builder.Services.AddScoped<IPublicationCommandService, PublicationCommandService>();
 builder.Services.AddScoped<IPublicationQueryService, PublicationQueriesService>();
+
+//Dashboard Bounded Context Dependency Injection Configuration
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookCommandService, BookCommandService>();
+builder.Services.AddScoped<IBookQueryService, BookQueriesService>();
 
 // IAM Bounded Context Dependency Injection Configuration
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));

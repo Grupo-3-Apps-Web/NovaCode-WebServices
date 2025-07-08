@@ -33,7 +33,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Dashboard\Application\" />
       <Folder Include="Publications\Domain\Model\Entities\" />
       <Folder Include="Publications\Domain\Model\ValueObjects\" />
     </ItemGroup>
