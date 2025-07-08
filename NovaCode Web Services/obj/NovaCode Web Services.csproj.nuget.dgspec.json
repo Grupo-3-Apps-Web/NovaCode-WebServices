@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj": {}
+    "C:\\Users\\joel_\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj": {
+    "C:\\Users\\joel_\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj",
+        "projectUniqueName": "C:\\Users\\joel_\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj",
         "projectName": "NovaCode Web Services",
-        "projectPath": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj",
-        "packagesPath": "C:\\Users\\Josue\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\obj\\",
+        "projectPath": "C:\\Users\\joel_\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj",
+        "packagesPath": "C:\\Users\\joel_\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\joel_\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Josue\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\joel_\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -40,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -118,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\Josue\\.dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\joel_\\.dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

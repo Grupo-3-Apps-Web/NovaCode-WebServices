@@ -7,7 +7,13 @@ public class UpdatePublicationCommandFromResourceAssembler
 {
     public static UpdatePublicationCommand ToCommandFromResource(UpdatePublicationResource resource)
     {
-        return new UpdatePublicationCommand(resource.Model, resource.Brand, resource.Year, resource.Description, 
-            resource.Image, resource.Price, resource.PublishedDate);
+        return new UpdatePublicationCommand(
+            resource.Model, 
+            resource.Brand, 
+            resource.Year, 
+            resource.Description, 
+            resource.Image, 
+            resource.Price, 
+            resource.PublishedDate);
     }
 }

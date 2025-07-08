@@ -7,6 +7,14 @@ public class PublicationResourceFromEntityAssembler
 {
     public static PublicationResource ToResourceFromEntity(Publication entity)
     {
-        return new PublicationResource(entity.Id, entity.Model, entity.Brand, entity.Year, entity.Description, entity.Image, entity.Price, entity.PublishedDate);
+        return new PublicationResource(
+            entity.Id, 
+            entity.Model, 
+            entity.Brand, 
+            entity.Year, 
+            entity.Description, 
+            entity.Image, 
+            entity.Price, 
+            entity.PublishedDate);
     }
 }

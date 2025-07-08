@@ -23,15 +23,13 @@ using NovaCode_Web_Services.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration;
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Repositories;
 
-// ... (usings sin cambios)
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Apply Route Naming Convention
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
-// ✅ CORS configurado correctamente para Netlify
+// Add CORS Policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllPolicy",
@@ -58,7 +56,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseMySQL(connectionString);
 });
 
-// Swagger/OpenAPI
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -90,21 +89,27 @@ builder.Services.AddSwaggerGen(options =>
     options.EnableAnnotations();
 });
 
-// Route Constraints
+// Configuración de restricciones de tipo en rutas
+
 builder.Services.Configure<RouteOptions>(options =>
 {
-    options.ConstraintMap.Add("id", typeof(IntRouteConstraint));
+    options.ConstraintMap.Add("id", typeof(IntRouteConstraint)); // Solo agrega esta línea, sin duplicar "int"
 });
 
-// Dependency Injection
+
+// Configure Dependency Injection
+
+// Shared Bounded Context Dependency Injection Configuration
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Publications
+//Publication Bounded Context Dependency Injection Configuration
+
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
 builder.Services.AddScoped<IPublicationCommandService, PublicationCommandService>();
 builder.Services.AddScoped<IPublicationQueryService, PublicationQueriesService>();
 
-// IAM
+// IAM Bounded Context Dependency Injection Configuration
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
@@ -115,7 +120,8 @@ builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 var app = builder.Build();
 
-// Ensure DB is created
+// Verify Database Objects are Created
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -123,9 +129,14 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
 }
 
-// Middleware Pipeline
-app.UseSwagger();
-app.UseSwaggerUI();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// Add Authorization Middleware to the Pipeline
 
 app.UseCors("AllowAllPolicy");
 
