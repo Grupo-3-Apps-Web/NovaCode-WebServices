@@ -8436,11 +8436,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj",
+      "projectUniqueName": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServicesDevelop\\NovaCode Web Services\\NovaCode Web Services.csproj",
       "projectName": "NovaCode Web Services",
-      "projectPath": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\NovaCode Web Services.csproj",
+      "projectPath": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServicesDevelop\\NovaCode Web Services\\NovaCode Web Services.csproj",
       "packagesPath": "C:\\Users\\Josue\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServices\\NovaCode Web Services\\obj\\",
+      "outputPath": "C:\\Users\\Josue\\RiderProjects\\NovaCode-WebServicesDevelop\\NovaCode Web Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Josue\\AppData\\Roaming\\NuGet\\NuGet.Config",

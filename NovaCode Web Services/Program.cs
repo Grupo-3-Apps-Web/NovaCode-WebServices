@@ -13,6 +13,11 @@ using NovaCode_Web_Services.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using NovaCode_Web_Services.IAM.Infrastructure.Tokens.JWT.Configuration;
 using NovaCode_Web_Services.IAM.Infrastructure.Tokens.JWT.Services;
 using NovaCode_Web_Services.IAM.Interfaces.ACL;
+using NovaCode_Web_Services.Profile.Application.Internal.CommandServices;
+using NovaCode_Web_Services.Profile.Application.Internal.QueryServices;
+using NovaCode_Web_Services.Profile.Domain.Repositories;
+using NovaCode_Web_Services.Profile.Domain.Services;
+using NovaCode_Web_Services.Profile.Infrastructure.Persistence.EFC.Repositories;
 using NovaCode_Web_Services.Publications.Application.Internal.CommandServices;
 using NovaCode_Web_Services.Publications.Application.Internal.QueryServices;
 using NovaCode_Web_Services.Publications.Domain.Repositories;
@@ -112,6 +117,12 @@ builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
+
+// Profile
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueriesService>();
 
 var app = builder.Build();
 

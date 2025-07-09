@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NovaCode Web Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aadba52944361543a0c7c2236b4066142cc053f0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7cd61bdfe7d4ac553f3595b7f42f68be24a03cde")]
 [assembly: System.Reflection.AssemblyProductAttribute("NovaCode Web Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NovaCode Web Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
