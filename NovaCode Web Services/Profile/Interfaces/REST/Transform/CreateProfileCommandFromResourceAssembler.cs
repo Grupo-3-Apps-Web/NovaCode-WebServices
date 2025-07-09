@@ -5,9 +5,10 @@ namespace NovaCode_Web_Services.Profile.Interfaces.REST.Transform
 {
     public static class CreateProfileCommandFromResourceAssembler
     {
-        public static CreateProfileCommand ToCommandFromResource(CreateProfileResource resource)
+        public static CreateProfileCommand ToCommandFromResource(CreateProfileResource resource, int userId)
         {
             return new CreateProfileCommand(
+                userId,
                 resource.FullName,
                 resource.Email,
                 resource.Phone,
