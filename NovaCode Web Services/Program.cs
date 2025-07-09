@@ -21,6 +21,11 @@ using NovaCode_Web_Services.Navigation.Application.Internal.QueryServices;
 using NovaCode_Web_Services.Navigation.Domain.Repositories;
 using NovaCode_Web_Services.Navigation.Domain.Services;
 using NovaCode_Web_Services.Navigation.Infrastructure.Persistence.EFC.Repositories;
+using NovaCode_Web_Services.Profile.Application.Internal.CommandServices;
+using NovaCode_Web_Services.Profile.Application.Internal.QueryServices;
+using NovaCode_Web_Services.Profile.Domain.Repositories;
+using NovaCode_Web_Services.Profile.Domain.Services;
+using NovaCode_Web_Services.Profile.Infrastructure.Persistence.EFC.Repositories;
 using NovaCode_Web_Services.Publications.Application.Internal.CommandServices;
 using NovaCode_Web_Services.Publications.Application.Internal.QueryServices;
 using NovaCode_Web_Services.Publications.Domain.Repositories;
@@ -132,6 +137,13 @@ builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewCommandService, ReviewCommandService>();
 builder.Services.AddScoped<IReviewQueryService, ReviewQueryService>();
+
+
+// Profile
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueriesService>();
+
 
 // Mediator Configuration
 

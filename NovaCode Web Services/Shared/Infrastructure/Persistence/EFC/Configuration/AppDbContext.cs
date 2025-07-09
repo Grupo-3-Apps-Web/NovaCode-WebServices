@@ -3,6 +3,7 @@ using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 using NovaCode_Web_Services.IAM.Domain.Model.Aggregates;
 using NovaCode_Web_Services.Navigation.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using NovaCode_Web_Services.Profile.Domain.Model.Aggregate;
 using NovaCode_Web_Services.Publications.Domain.Model.Aggregate;
 
 namespace NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -39,8 +40,19 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         //Navigation Context Configuration
         builder.ApplyNavigationConfiguration();
-
-
+        
+        //Profiles Context
+        builder.Entity<ProfileAggregate>().ToTable("Profiles");
+        builder.Entity<ProfileAggregate>().HasKey(p => p.Id);
+        builder.Entity<ProfileAggregate>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<ProfileAggregate>().Property(p => p.FullName).IsRequired();
+        builder.Entity<ProfileAggregate>().Property(p => p.Email).IsRequired();
+        builder.Entity<ProfileAggregate>().Property(p => p.Phone).IsRequired();
+        builder.Entity<ProfileAggregate>().Property(p => p.Address).IsRequired();
+        builder.Entity<ProfileAggregate>().Property(p => p.Birthday).IsRequired();
+        builder.Entity<ProfileAggregate>().Property(p => p.Dni).IsRequired();
+        builder.Entity<ProfileAggregate>().Property(p => p.ImageProfile).IsRequired();
+        
         
         builder.UseSnakeCaseNamingConvention();
     }
