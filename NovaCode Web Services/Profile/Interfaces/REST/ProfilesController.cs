@@ -60,26 +60,21 @@ public class ProfilesController : ControllerBase
         return Ok(ProfileResourceFromEntityAssembler.ToResourceFromEntity(user));
     }
 
-    [HttpPost("/api/v1/users/{userId}/profile")]
+    [HttpPost]
     [SwaggerOperation("Create new Profile", "Creates a new user profile.", OperationId = "CreateUser")]
     [SwaggerResponse(201, "Profile created successfully.", typeof(ProfileResource))]
-    public async Task<IActionResult> CreateUser([FromRoute] int userId, [FromBody] CreateProfileResource resource)
+    public async Task<IActionResult> CreateUser([FromBody] CreateProfileResource resource)
     {
         if (resource == null)
             return BadRequest("Invalid data.");
 
-        // Validar existencia del usuario en IAM
-        var user = await _userQueryService.Handle(new GetUserByIdQuery(userId));
-        if (user == null)
-            return NotFound($"User with ID {userId} not found.");
-
-        var command = CreateProfileCommandFromResourceAssembler.ToCommandFromResource(resource, userId);
+        var command = CreateProfileCommandFromResourceAssembler.ToCommandFromResource(resource);
         var created = await _commandService.Handle(command);
         var resultResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(created);
 
         return CreatedAtAction(nameof(GetUserById), new { id = created.Id }, resultResource);
     }
-
+    
     [HttpPut("{id:int}")]
     [SwaggerOperation("Update Profile", "Updates an existing user profile.", OperationId = "UpdateUser")]
     [SwaggerResponse(200, "Profile updated successfully.", typeof(ProfileResource))]
