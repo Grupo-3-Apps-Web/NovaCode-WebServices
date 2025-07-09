@@ -1,6 +1,14 @@
+using Cortex.Mediator.Behaviors;
+using Cortex.Mediator.Commands;
+using Cortex.Mediator.DependencyInjection;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NovaCode_Web_Services.Dashboard.Application.Internal.CommandServices;
+using NovaCode_Web_Services.Dashboard.Application.Internal.QueryService;
+using NovaCode_Web_Services.Dashboard.Domain.Repositories;
+using NovaCode_Web_Services.Dashboard.Domain.Services;
+using NovaCode_Web_Services.Dashboard.Infrastructure.Persistence.EFC.Repositories;
 using NovaCode_Web_Services.IAM.Application.ACL.Services;
 using NovaCode_Web_Services.IAM.Application.Internal.CommandServices;
 using NovaCode_Web_Services.IAM.Application.Internal.OutboundServices;
@@ -13,11 +21,11 @@ using NovaCode_Web_Services.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using NovaCode_Web_Services.IAM.Infrastructure.Tokens.JWT.Configuration;
 using NovaCode_Web_Services.IAM.Infrastructure.Tokens.JWT.Services;
 using NovaCode_Web_Services.IAM.Interfaces.ACL;
-using NovaCode_Web_Services.Profile.Application.Internal.CommandServices;
-using NovaCode_Web_Services.Profile.Application.Internal.QueryServices;
-using NovaCode_Web_Services.Profile.Domain.Repositories;
-using NovaCode_Web_Services.Profile.Domain.Services;
-using NovaCode_Web_Services.Profile.Infrastructure.Persistence.EFC.Repositories;
+using NovaCode_Web_Services.Navigation.Application.Internal.CommandServices;
+using NovaCode_Web_Services.Navigation.Application.Internal.QueryServices;
+using NovaCode_Web_Services.Navigation.Domain.Repositories;
+using NovaCode_Web_Services.Navigation.Domain.Services;
+using NovaCode_Web_Services.Navigation.Infrastructure.Persistence.EFC.Repositories;
 using NovaCode_Web_Services.Publications.Application.Internal.CommandServices;
 using NovaCode_Web_Services.Publications.Application.Internal.QueryServices;
 using NovaCode_Web_Services.Publications.Domain.Repositories;
@@ -28,15 +36,13 @@ using NovaCode_Web_Services.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Configuration;
 using NovaCode_Web_Services.Shared.Infrastructure.Persistence.EFC.Repositories;
 
-// ... (usings sin cambios)
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Apply Route Naming Convention
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
-// ✅ CORS configurado correctamente para Netlify
+// Add CORS Policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllPolicy",
@@ -63,7 +69,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseMySQL(connectionString);
 });
 
-// Swagger/OpenAPI
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -95,21 +102,27 @@ builder.Services.AddSwaggerGen(options =>
     options.EnableAnnotations();
 });
 
-// Route Constraints
+// Configuración de restricciones de tipo en rutas
+
 builder.Services.Configure<RouteOptions>(options =>
 {
-    options.ConstraintMap.Add("id", typeof(IntRouteConstraint));
+    options.ConstraintMap.Add("id", typeof(IntRouteConstraint)); // Solo agrega esta línea, sin duplicar "int"
 });
 
-// Dependency Injection
+
+// Configure Dependency Injection
+
+// Shared Bounded Context Dependency Injection Configuration
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Publications
+//Publication Bounded Context Dependency Injection Configuration
+
 builder.Services.AddScoped<IPublicationRepository, PublicationRepository>();
 builder.Services.AddScoped<IPublicationCommandService, PublicationCommandService>();
 builder.Services.AddScoped<IPublicationQueryService, PublicationQueriesService>();
 
-// IAM
+// IAM Bounded Context Dependency Injection Configuration
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
@@ -118,15 +131,38 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
+// Navigation Bounded Context Injection Configuration
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewCommandService, ReviewCommandService>();
+builder.Services.AddScoped<IReviewQueryService, ReviewQueryService>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<IReservationCommandService, ReservationCommandService>();
 
-// Profile
-builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
-builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
-builder.Services.AddScoped<IProfileQueryService, ProfileQueriesService>();
+//Dashboard Bounded Context Dependency Injection Configuration
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookCommandService, BookCommandService>();
+builder.Services.AddScoped<IBookQueryService, BookQueriesService>();
+
+// Mediator Configuration
+
+// Add Mediator Injection Configuration
+builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
+
+// Add Cortex Mediator for Event Handling
+builder.Services.AddCortexMediator(
+    configuration: builder.Configuration,
+    handlerAssemblyMarkerTypes: new[] { typeof(Program) }, configure: options =>
+    {
+        options.AddOpenCommandPipelineBehavior(typeof(LoggingCommandBehavior<>));
+    });
 
 var app = builder.Build();
 
-// Ensure DB is created
+// Verify Database Objects are Created
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -134,9 +170,14 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
 }
 
-// Middleware Pipeline
-app.UseSwagger();
-app.UseSwaggerUI();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// Add Authorization Middleware to the Pipeline
 
 app.UseCors("AllowAllPolicy");
 

@@ -98,26 +98,4 @@ public class PublicationsController(IPublicationCommandService publicationComman
             throw;
         }
     }
-    
-    [HttpPut("{id:int}")]
-    [SwaggerOperation("Update Publication Information", "Update Publication Information", OperationId = "UpdatePublication")]  
-    [SwaggerResponse(200, "The Publication was updated successfully.", typeof(PublicationResource))]
-    [SwaggerResponse(404, "The Publication was not found.")]
-    public async Task<IActionResult> UpdatePublication(int id, [FromBody] UpdatePublicationCommand command)
-    {
-        if (command == null)
-        {
-            return BadRequest("Invalid data.");
-        }
-
-        var updatedPublication = await publicationCommandService.Handle(id, command);
-
-        if (updatedPublication == null)
-        {
-            return NotFound($"Publication with ID {id} not found.");
-        }
-
-        var publicationResource = PublicationResourceFromEntityAssembler.ToResourceFromEntity(updatedPublication);
-        return Ok(publicationResource);
-    }
 }
